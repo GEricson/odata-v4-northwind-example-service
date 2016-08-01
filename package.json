@@ -1,0 +1,19 @@
+{
+  "name": "northwind-node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "morgan": "~1.7.0",
+    "odata-v4-mongodb": "git+https://github.com/jaystack/odata-v4-mongodb.git",
+    "odata-v4-resource": "git+https://github.com/jaystack/odata-v4-resource.git",
+    "odata-v4-service-metadata": "git+https://github.com/jaystack/odata-v4-service-metadata.git",
+    "serve-favicon": "~2.3.0"
+  }
+}
