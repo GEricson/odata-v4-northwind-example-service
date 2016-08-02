@@ -1,5 +1,5 @@
 {
-  "name": "northwind-node",
+  "name": "odata-v4-northwind-example-service",
   "version": "0.0.0",
   "private": true,
   "scripts": {

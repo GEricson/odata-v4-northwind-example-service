@@ -71,7 +71,8 @@ function createQueryObjectFromRequest(req){
   }
 
   if(call.navigation.length > 1){
-    queryObject.query[models[call.navigation[0].name].modelName + "Id"] = call.navigation[0].key[0].value.toString(); //We have to append "Id" to modelName because we store the Product's category id in the "CategoryId" field.
+    //We have to append "Id" to modelName because we store the Product's category id in the "CategoryId" field.
+    queryObject.query[models[call.navigation[0].name].modelName + "Id"] = call.navigation[0].key[0].value.toString();
   }
 
   if(call.navigation[call.navigation.length-1].key &&
@@ -97,11 +98,22 @@ function getModelFromRequest(req){
   return model;
 }
 
+function getNumberOfResourcelevelsFromRequest(req){
+  try{
+    const call = createServiceOperationCall(req.originalUrl, metadata);
+  }
+  catch(err){
+    return null
+  }
+
+  return call.navigation.length;
+}
+
 const odataController = {
   
   getMetadata: metadata.requestHandler(),
 
-  getEntitySets: function(req, res, next){
+  getEntitySetsInformation: function(req, res, next){
     res.set('OData-Version', '4.0');
     res.json({'@odata.context': req.protocol + '://' + req.get('host') + '/odata/$metadata',
       value: [
@@ -119,6 +131,7 @@ const odataController = {
     });
   },
 
+  //Clearing "Categories" and "Products" collections and restore them from backup
   initDb: function(req, res, next){
     models["Products"].remove({})
     .then(
@@ -143,7 +156,14 @@ const odataController = {
     );
   },
 
-  getItems: function(req, res, next){
+  //Returns an entitySet. Supports 2-level resource URI-s and odata queries
+  getEntities: function(req, res, next){
+    const numberOfLevelsOfRequestedResource = getNumberOfResourcelevelsFromRequest(req);
+
+    if(!numberOfLevelsOfRequestedResource){
+      res.sendStatus(400);
+    }
+
     const model = getModelFromRequest(req);
     if(!model){
       respondNotFound();
@@ -168,11 +188,13 @@ const odataController = {
         return next(err);
       }
 
+      //Mongoose always returns the _id with the document, 
+      // so we have to remove it if there is a $select operator in the query that doesn't including the _id field 
       if( Object.keys(queryObject.fields).length != 0 &&
           Object.keys(queryObject.fields).findIndex(e => e == "_id") == -1
       ){
         data = data.map(e => {
-          const entity = e.toObject();
+          const entity = e.toObject(); //Converting mongoose document to plain javascript object
           delete entity._id;
           return entity;
         });
@@ -185,7 +207,8 @@ const odataController = {
     });
   },
 
-  postItem: function(req, res, next){
+  //Creating an entity
+  postEntity: function(req, res, next){
     const model = getModelFromRequest(req);
     if(!model){
       respondNotFound();
@@ -197,7 +220,8 @@ const odataController = {
     });
   },
 
-  putItem: function(req, res, next){
+  //Replace an entity
+  putEntity: function(req, res, next){
     const model = getModelFromRequest(req);
     if(!model){
       respondNotFound();
@@ -212,7 +236,8 @@ const odataController = {
     });
   },
 
-  patchItem: function(req, res, next){
+  //Update an entity
+  patchEntity: function(req, res, next){
     const model = getModelFromRequest(req);
     if(!model){
       respondNotFound();
@@ -229,7 +254,8 @@ const odataController = {
     });
   },
 
-  deleteItem: function(req, res, next){
+  //Delete an entity
+  deleteEntity: function(req, res, next){
     const model = getModelFromRequest(req);
     if(!model){
       respondNotFound();

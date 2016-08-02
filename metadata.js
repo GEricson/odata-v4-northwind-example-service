@@ -1,6 +1,6 @@
-var ServiceMetadata = require('odata-v4-service-metadata').ServiceMetadata;
+const ServiceMetadata = require('odata-v4-service-metadata').ServiceMetadata;
 
-var schemaJson = {
+const schemaJson = {
   "version": "4.0",
   "dataServices": {
     "schema": [
@@ -207,6 +207,6 @@ var schemaJson = {
   }
 }
 
-var metadata = ServiceMetadata.processMetadataJson(schemaJson);
+const metadata = ServiceMetadata.processMetadataJson(schemaJson);
 
 module.exports = metadata;
