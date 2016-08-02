@@ -101,12 +101,11 @@ function getModelFromRequest(req){
 function getNumberOfResourcelevelsFromRequest(req){
   try{
     const call = createServiceOperationCall(req.originalUrl, metadata);
+    return call.navigation.length;
   }
   catch(err){
     return null
   }
-
-  return call.navigation.length;
 }
 
 const odataController = {
