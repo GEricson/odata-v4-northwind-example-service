@@ -198,9 +198,24 @@ const schemaJson = {
         ]
       },
       {
-        "namespace": "Default",
+        "namespace": "JayStack",
         "action": {
           "name": "initDb"
+        },
+        "entityContainer": {
+          "name": "NorthwindContext",
+          "entitySet": [{
+            "name": "Products",
+            "entityType": "Northwind.Product"
+          },
+          {
+            "name": "Categories",
+            "entityType": "Northwind.Category"
+          }],
+          "actionImport": {
+            "name": "initDb",
+            "action": "JayStack.initDb"
+          }
         }
       }
     ]
