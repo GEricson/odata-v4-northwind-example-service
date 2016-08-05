@@ -214,8 +214,12 @@ const odataController = {
     }
 
     const entity = new model(req.body);
-    entity.save((result) => {
+    entity.save((result, doc) => {
+      const location = req.protocol + '://' + req.get('host') + '/odata/' + model.modelName + '(\'' + doc._id + '\')';
+
       res.status(201);
+      res.set('Location', location);
+      res.end();
     });
   },
 
