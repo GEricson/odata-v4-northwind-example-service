@@ -18,7 +18,7 @@ module.exports = function(mongoose){
   [productSchema, categorySchema].forEach(
     schema => schema.set("toJSON", {
       transform: (doc, ret, options) => {
-        delete ret.__v;
+        delete ret.__v; //mongoose internal revision key, we don't want to see that
       }
     })
   );

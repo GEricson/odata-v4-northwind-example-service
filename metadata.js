@@ -1,6 +1,6 @@
-var ServiceMetadata = require('odata-v4-service-metadata').ServiceMetadata;
+const ServiceMetadata = require('odata-v4-service-metadata').ServiceMetadata;
 
-var schemaJson = {
+const schemaJson = {
   "version": "4.0",
   "dataServices": {
     "schema": [
@@ -198,15 +198,30 @@ var schemaJson = {
         ]
       },
       {
-        "namespace": "Default",
+        "namespace": "JayStack",
         "action": {
           "name": "initDb"
+        },
+        "entityContainer": {
+          "name": "NorthwindContext",
+          "entitySet": [{
+            "name": "Products",
+            "entityType": "Northwind.Product"
+          },
+          {
+            "name": "Categories",
+            "entityType": "Northwind.Category"
+          }],
+          "actionImport": {
+            "name": "initDb",
+            "action": "JayStack.initDb"
+          }
         }
       }
     ]
   }
 }
 
-var metadata = ServiceMetadata.processMetadataJson(schemaJson);
+const metadata = ServiceMetadata.processMetadataJson(schemaJson);
 
 module.exports = metadata;
