@@ -208,7 +208,7 @@ const odataController = {
         res.send(500, {error: err});
         return;
       }
-      res.send("success!");
+      res.json(data);
     });
   },
 
@@ -225,7 +225,7 @@ const odataController = {
         res.send(500, {error: err});
         return;
       }
-      res.send("success!");
+      res.json(data);
     });
   },
 
