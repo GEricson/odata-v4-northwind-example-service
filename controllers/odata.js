@@ -219,7 +219,7 @@ const odataController = {
 
       res.status(201);
       res.set('Location', location);
-      res.end();
+      res.json(doc);
     });
   },
 
