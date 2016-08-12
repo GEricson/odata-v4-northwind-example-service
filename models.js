@@ -3,7 +3,8 @@ module.exports = function(mongoose){
     QuantityPerUnit: {type: String},
     UnitPrice: {type: Number, required: true},
     Name: {type: String},
-    CategoryId: {type: mongoose.Schema.ObjectId}//, select: false}
+    CategoryId: {type: mongoose.Schema.ObjectId},
+    Discontinued: {type:Boolean}
   }, {
     id: false
   });

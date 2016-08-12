@@ -1,9 +1,9 @@
 const url = require('url');
 
-const config = require('./../config');
+const config = require('config');
 
 const mongoose = require('mongoose');
-mongoose.connect(config.dbUrl);
+mongoose.connect(config.mongoConnection);
 
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -79,6 +79,7 @@ function createQueryObjectFromRequest(req){
      call.navigation[call.navigation.length-1].key[0]
   ){
     queryObject.query["_id"] = new ObjectId(call.navigation[call.navigation.length-1].key[0].value.toString());
+    queryObject.singleResult = true;
   }
 
   return queryObject;
@@ -198,11 +199,18 @@ const odataController = {
           return entity;
         });
       }
-
-      res.json({
-        '@odata.context': req.protocol + '://' + req.get('host') + '/odata/$metadata#' + model.modelName,
-        value: data
-      });
+      if(queryObject.singleResult){
+        if(data.length > 0){
+          res.json(data[0]);
+        } else {
+          res.sendStatus(404);
+        }
+      } else {
+        res.json({
+          '@odata.context': req.protocol + '://' + req.get('host') + '/odata/$metadata#' + model.modelName,
+          value: data
+        });
+      }
     });
   },
 

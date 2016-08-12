@@ -43,15 +43,13 @@ const schemaJson = {
                 "name": "CategoryId",
                 "type": "Edm.String",
                 "nullable": "false"
-              }
-            ]/*,
-            "navigationProperty": [
+              },
               {
-                "name": "Category",
-                "type": "Northwind.Category",
-                "partner": "Products"
+                "name": "Discontinued",
+                "type": "Edm.Boolean",
+                "nullable": "false"
               }
-            ]*/
+            ]
           },
           {
             "name": "Category",
@@ -80,13 +78,6 @@ const schemaJson = {
                 "type": "Edm.String",
                 "nullable": "false"
               }
-            ],
-            "navigationProperty": [
-              {
-                "name": "Products",
-                "type": "Collection(Northwind.Product)",
-                "partner": "Category"
-              }
             ]
           }
         ],
@@ -94,10 +85,6 @@ const schemaJson = {
           {
             "target": "Northwind.Product/_id",
             "annotation": [
-              {
-                "term": "Org.OData.Core.V1.Computed",
-                "bool": "true"
-              },
               {
                 "term": "UI.DisplayName",
                 "string": "Product identifier"
@@ -111,10 +98,6 @@ const schemaJson = {
           {
             "target": "Northwind.Category/_id",
             "annotation": [
-              {
-                "term": "Org.OData.Core.V1.Computed",
-                "bool": "true"
-              },
               {
                 "term": "UI.DisplayName",
                 "string": "Category identifier"

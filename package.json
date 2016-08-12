@@ -16,5 +16,9 @@
     "odata-v4-resource": "git+https://github.com/jaystack/odata-v4-resource.git",
     "odata-v4-service-metadata": "git+https://github.com/jaystack/odata-v4-service-metadata.git",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "config": "^1.21.0",
+    "gulp": "^3.9.1"
   }
 }
